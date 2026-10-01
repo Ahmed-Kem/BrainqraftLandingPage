@@ -1,0 +1,3 @@
+# Invitation deep links: serve the landing page for any /join/<code>.
+/join     /  200
+/join/*   /  200

@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "FTX5JSNYDP.com.brainqraft.mobileapp",
+        "paths": ["/join/*"]
+      }
+    ]
+  }
+}

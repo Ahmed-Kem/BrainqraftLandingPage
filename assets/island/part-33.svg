@@ -1,0 +1,21 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="105.988" height="84.0224" viewBox="0 0 105.988 84.0224" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group" filter="url(#filter0_g_0_299)">
+<path id="Vector" d="M90.9968 36.5665C89.7419 46.9244 83.7961 56.4257 74.4672 62.98C65.136 69.5345 53.187 72.6053 41.2495 71.5166C29.3098 70.4279 18.3582 65.2692 10.8037 57.1748C3.24678 49.0808 -0.292599 38.7147 0.962285 28.3566L45.9795 32.4616L90.9968 36.5665Z" fill="#B09C81"/>
+<path id="Vector_2" d="M43.8651 49.8358C68.7283 52.1029 89.8821 45.6836 91.1163 35.4979C92.3505 25.3125 73.1963 15.2176 48.3354 12.9507C23.4721 10.6836 2.31838 17.1028 1.08419 27.2883C-0.150012 37.4739 19.0042 47.5686 43.8651 49.8358Z" fill="#4D4942"/>
+<path id="Vector_3" d="M23.4723 20.5348L16.6922 24.3041L13.9296 26.2458L41.1142 41.8867L70.0684 32.4617L71.714 29.3211L79.2157 30.0052L79.7421 25.6658L83.4929 26.0079L84.1502 20.5836L77.8988 20.0136L78.4251 15.674L83.5573 15.0453L84.2146 9.62096L88.4917 5.62371L105.274 2.76659L82.7644 0.714169L77.9631 9.05089L68.8158 11.5072L60.0615 10.709L60.5878 6.36964L66.8392 6.93991L75.0006 2.19971L60.9808 3.11513L54.3341 5.79957L44.5294 13.6802L35.7775 12.882L28.4734 20.9908L23.4723 20.5348Z" fill="#DE8F3E"/>
+<path id="Vector_4" d="M48.1009 56.818L38.0986 55.9059L35.2073 79.7726L45.2096 80.6848L48.1009 56.818Z" fill="#B09C81"/>
+<path id="Vector_5" d="M72.0217 58.2404L62.0861 59.6055L66.4138 83.3082L76.3494 81.9432L72.0217 58.2404Z" fill="#B09C81"/>
+<path id="Vector_6" d="M23.8053 56.1591L14.4143 53.0316L4.50169 75.4359L13.8926 78.5634L23.8053 56.1591Z" fill="#B09C81"/>
+</g>
+<defs>
+<filter id="filter0_g_0_299" x="1.79045e-08" y="0" width="105.988" height="84.0224" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="0.41964870691299438 0.41964870691299438" numOctaves="3" seed="336" />
+<feDisplacementMap in="shape" scale="1.428337574005127" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%" />
+<feMerge result="effect1_texture_0_299">
+<feMergeNode in="displacedImage"/>
+</feMerge>
+</filter>
+</defs>
+</svg>
