@@ -1,10 +1,15 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.brainqraft.mobileapp",
-      "sha256_cert_fingerprints": ["C7:D1:C7:EC:F2:C4:86:97:FF:A4:A1:DE:18:5B:A1:46:0D:32:21:FA:77:8E:07:1B:FC:C8:94:5A:05:A6:90:16"]
+      "sha256_cert_fingerprints": [
+        "E7:0A:3B:4C:FB:A5:EB:DC:91:0B:72:CB:D7:FA:77:26:A1:73:6F:60:DD:D1:99:77:E0:F3:C0:63:82:5D:66:B8",
+        "C7:D1:C7:EC:F2:C4:86:97:FF:A4:A1:DE:18:5B:A1:46:0D:32:21:FA:77:8E:07:1B:FC:C8:94:5A:05:A6:90:16"
+      ]
     }
   }
 ]
