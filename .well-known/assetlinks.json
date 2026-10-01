@@ -4,7 +4,7 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.brainqraft.mobileapp",
-      "sha256_cert_fingerprints": ["REPLACE_WITH_ANDROID_RELEASE_SHA256"]
+      "sha256_cert_fingerprints": ["C7:D1:C7:EC:F2:C4:86:97:FF:A4:A1:DE:18:5B:A1:46:0D:32:21:FA:77:8E:07:1B:FC:C8:94:5A:05:A6:90:16"]
     }
   }
 ]
