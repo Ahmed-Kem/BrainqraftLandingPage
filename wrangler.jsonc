@@ -1,0 +1,11 @@
+// Cloudflare Workers static-assets config: the repo root is served as-is.
+// `_redirects` (the /join/* rewrite) and `_headers` (JSON content types for
+// .well-known) are applied by Workers static assets. Files listed in
+// .assetsignore are not uploaded.
+{
+  "name": "brainqraftlandingpage",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "."
+  }
+}
