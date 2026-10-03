@@ -36,13 +36,28 @@ inline script in `<head>`:
 - iOS → redirects to the App Store
 - desktop → shows the landing page plus a "open this link on your phone" hint
 
+## Deploy (Cloudflare Pages)
+
+No build step: the repo is served as-is, and Pages applies `_redirects` and `_headers`.
+
+1. Cloudflare dashboard → Workers & Pages → Create → Pages → connect `Ahmed-Kem/BrainqraftLandingPage`.
+   Production branch `main`, framework preset **None**, build command empty, output directory `/`.
+2. The project → Custom domains → add `brainqraft.com`. Cloudflare swaps the apex record from Webflow
+   to the Pages project (remove the old Webflow A record if it asks).
+3. Security → make sure Bot Fight Mode / challenges don't apply to `/.well-known/*`, or Apple and Google
+   can't fetch the deep-link files.
+
+Every push to `main` redeploys.
+
+Check: `curl -sI https://brainqraft.com/.well-known/apple-app-site-association` → `200`,
+`content-type: application/json`, no redirect; `https://brainqraft.com/join/BQ-TEST` → the landing page.
+
 ## Before going live
 
 - [x] App Store id `6760896800` (from `brainqraft-mobile/eas.json` → `ascAppId`) set in `index.html`.
-- [ ] Replace `REPLACE_WITH_ANDROID_RELEASE_SHA256` in `.well-known/assetlinks.json`
-      (`eas credentials` → Android, plus the Play App Signing key from Play Console → App integrity).
+- [x] `.well-known/assetlinks.json` lists the Play app signing key (`E7:0A:…`) and the EAS upload key (`C7:D1:…`).
 - [ ] Make sure the host serves `.well-known/*` with `Content-Type: application/json`, over HTTPS,
-      with no redirect (`_headers` handles this on Netlify / Cloudflare Pages).
+      with no redirect (`_headers` handles this on Cloudflare Pages).
 
 Verification URLs:
 - iOS: https://app-site-association.cdn-apple.com/a/v1/brainqraft.com
