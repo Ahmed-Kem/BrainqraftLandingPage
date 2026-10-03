@@ -29,6 +29,8 @@ body {
   color: var(--text-primary);
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
+  /* No rubber-band bounce on a page that fits the screen. */
+  overscroll-behavior: none;
 }
 
 img {
@@ -267,6 +269,10 @@ img {
 /* Phones: the artboard's top ~22% is empty sky (pillars start at 24.72%).
    Trim it so the short visible slice shows the pillars and island. */
 @media (max-width: 600px) {
+  .page {
+    gap: clamp(32px, 7vh, 101px);
+  }
+
   .island__art {
     margin-top: calc(max(100vw, 900px) * -0.05);
   }
