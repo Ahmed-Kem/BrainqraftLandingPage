@@ -1,0 +1,218 @@
+/* ===== BrainQraft landing — motion layer (à charger après styles.css) ===== */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.page { --mx: 0; --my: 0; }
+
+/* ---------- Ciel : étoiles qui scintillent + étoiles filantes ---------- */
+.star {
+  translate: calc(var(--mx) * -8px) calc(var(--my) * -5px);
+  animation: bq-twinkle 3.6s ease-in-out infinite;
+}
+.star:nth-child(3n)     { animation-duration: 4.8s; animation-delay: -1.2s; }
+.star:nth-child(3n + 1) { animation-duration: 2.9s; animation-delay: -2.1s; }
+.star:nth-child(5n)     { animation-delay: -3.3s; }
+.star:nth-child(7n)     { animation-duration: 6.1s; }
+@keyframes bq-twinkle {
+  0%, 100% { opacity: 0.35; scale: 0.7; }
+  50%      { opacity: 1; scale: 1.3; background: #cfcaf0; }
+}
+.starry::before,
+.starry::after {
+  content: "";
+  position: absolute;
+  top: 6%;
+  left: 8%;
+  width: 150px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #f5f4f8);
+  rotate: 18deg;
+  opacity: 0;
+  animation: bq-shoot 9s linear infinite 2.6s;
+}
+.starry::after {
+  top: 16%;
+  left: 52%;
+  width: 110px;
+  animation-duration: 13s;
+  animation-delay: 6.5s;
+}
+@keyframes bq-shoot {
+  0%   { opacity: 0; translate: 0 0; }
+  1.5% { opacity: 0.9; }
+  8%   { opacity: 0; translate: 34vw 11vw; }
+  100% { opacity: 0; translate: 34vw 11vw; }
+}
+
+/* ---------- Entrées : logo, titre, badges ---------- */
+.logo { animation: bq-fade-down 0.8s var(--ease-out) 0.1s backwards; }
+.logo__mark { transition: rotate 0.4s var(--ease-spring), scale 0.4s var(--ease-spring); }
+.logo:hover .logo__mark { rotate: -8deg; scale: 1.08; }
+@keyframes bq-fade-down { from { opacity: 0; translate: 0 -16px; } }
+
+.title .w {
+  display: inline-block;
+  animation: bq-word 0.9s var(--ease-out) backwards;
+  animation-delay: calc(0.3s + var(--i) * 0.11s);
+}
+.title .w--brand {
+  background: linear-gradient(100deg, #f5f4f8 42%, #a9a4ff 50%, #f5f4f8 58%) 100% 0 / 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: bq-word 0.9s var(--ease-out) backwards, bq-sheen 6s ease-in-out infinite 2.2s;
+  animation-delay: calc(0.3s + var(--i) * 0.11s), 2.2s;
+}
+@keyframes bq-word  { from { opacity: 0; translate: 0 0.5em; filter: blur(8px); } }
+@keyframes bq-sheen { 0%, 55% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+.store-badge {
+  position: relative;
+  overflow: hidden;
+  animation: bq-pop 0.7s var(--ease-spring) backwards;
+  transition: border-color 0.2s ease, translate 0.25s var(--ease-out), box-shadow 0.25s ease, transform 0.15s ease;
+}
+.store-badge--apple  { animation-delay: 0.75s; }
+.store-badge--google { animation-delay: 0.87s; }
+.store-badge:hover {
+  translate: 0 -3px;
+  box-shadow: 0 12px 30px -10px rgba(128, 122, 255, 0.6);
+}
+.store-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.16) 50%, transparent 65%);
+  translate: -120% 0;
+  animation: bq-shine 7s ease-in-out infinite 2.5s;
+  pointer-events: none;
+}
+.store-badge--google::after { animation-delay: 2.9s; }
+@keyframes bq-pop   { from { opacity: 0; scale: 0.85; translate: 0 14px; } }
+@keyframes bq-shine { 0%, 72% { translate: -120% 0; } 100% { translate: 120% 0; } }
+.join-hint { animation: bq-fade-down 0.8s var(--ease-out) 1.1s backwards; }
+
+/* ---------- Île : entrée en scène ---------- */
+.island__art svg { display: block; width: 100%; height: 100%; }
+.island__art > span { animation: bq-rise 1.5s var(--ease-out) backwards; }
+@keyframes bq-rise       { from { opacity: 0; translate: 0 7vw; } }
+@keyframes bq-from-left  { from { opacity: 0; translate: -9vw 2vw; } }
+@keyframes bq-from-right { from { opacity: 0; translate: 9vw 2vw; } }
+@keyframes bq-pillar     { from { translate: 0 22vw; } }
+@keyframes bq-sprout     { from { opacity: 0; scale: 0.2; translate: 0 1.5vw; } }
+
+/* nuages arrière (1–12) puis nuages avant (26–31) */
+.island__art > span:nth-child(-n + 12) { animation-delay: 0.25s; animation-duration: 1.8s; }
+.island__art > span:nth-child(n + 26):nth-child(-n + 31) { animation-delay: 0.7s; animation-duration: 1.8s; }
+.island__art > span:is(:nth-child(1), :nth-child(5), :nth-child(7), :nth-child(11), :nth-child(26), :nth-child(30)) { animation-name: bq-from-left; }
+.island__art > span:is(:nth-child(2), :nth-child(6), :nth-child(8), :nth-child(12), :nth-child(27), :nth-child(31)) { animation-name: bq-from-right; }
+/* île (14), rochers (21–25), touffes d’herbe (15–20) */
+.island__art > span:nth-child(14) { animation-delay: 0.45s; }
+.island__art > span:nth-child(n + 21):nth-child(-n + 25) { animation-delay: 0.95s; }
+.island__art > span:nth-child(n + 15):nth-child(-n + 20) {
+  animation: bq-sprout 0.7s var(--ease-spring) var(--d, 1.35s) backwards;
+  transform-origin: 50% 90%;
+}
+.island__art > span:nth-child(15) { --d: 1.35s; }
+.island__art > span:nth-child(16) { --d: 1.42s; --sway-d: -0.8s; --sway: 2.7s; }
+.island__art > span:nth-child(17) { --d: 1.49s; --sway-d: -1.6s; }
+.island__art > span:nth-child(18) { --d: 1.56s; --sway-d: -2.2s; --sway: 3.8s; }
+.island__art > span:nth-child(19) { --d: 1.63s; --sway-d: -0.4s; --sway: 2.9s; }
+.island__art > span:nth-child(20) { --d: 1.7s; --sway-d: -1.1s; }
+/* piliers + braseros (32–35) : montent ensemble */
+.island__art > span:nth-child(n + 32) {
+  animation: bq-pillar 1.4s var(--ease-out) 0.45s backwards;
+}
+.island__art > span:nth-child(n + 34) { animation-delay: 0.55s; }
+
+/* ---------- Île : boucles ---------- */
+/* dérive des nuages */
+.island__art > span:nth-child(-n + 12) > span,
+.island__art > span:nth-child(n + 26):nth-child(-n + 31) > span {
+  animation: bq-drift 17s ease-in-out infinite alternate;
+}
+.island__art > span:nth-child(2n) > span     { animation-direction: alternate-reverse; animation-duration: 21s; }
+.island__art > span:nth-child(3n) > span     { animation-duration: 25s; animation-delay: -9s; }
+.island__art > span:nth-child(n + 26) > span { animation-duration: 13s; }
+.island__art > span:nth-child(n + 28) > span { animation-duration: 15s; animation-delay: -5s; }
+.island__art > span:nth-child(n + 32) > span { animation: none; }
+@keyframes bq-drift {
+  from { transform: translate(-1.6%, 0.6%); }
+  to   { transform: translate(1.6%, -0.6%); }
+}
+/* herbe dans le vent */
+.island__art > span:nth-child(n + 15):nth-child(-n + 20) > span {
+  transform-origin: 50% 85%;
+  animation: bq-sway var(--sway, 3.2s) ease-in-out var(--sway-d, 0s) infinite alternate;
+}
+@keyframes bq-sway {
+  from { transform: rotate(-5deg) skewX(3deg); }
+  to   { transform: rotate(6deg) skewX(-4deg); }
+}
+/* parallaxe souris (variables posées par motion.js) */
+.island__art > span:nth-child(-n + 12) :is(img, svg) { translate: calc(var(--mx) * -8px) 0; }
+.island__art > span:nth-child(n + 13):nth-child(-n + 25) :is(img, svg) { translate: calc(var(--mx) * -4px) 0; }
+.island__art > span:nth-child(n + 26):nth-child(-n + 31) :is(img, svg) { translate: calc(var(--mx) * -20px) 0; }
+.island__art > span:nth-child(n + 32) > span { translate: calc(var(--mx) * -13px) 0; }
+.island__art > span.flip:nth-child(n + 32) > span { translate: calc(var(--mx) * 13px) 0; }
+
+/* ---------- Braseros : flammes, halo, braises ---------- */
+.bq-flame {
+  transform-box: fill-box;
+  transform-origin: 32% 100%;
+  animation: bq-ignite 0.9s var(--ease-spring) 1.5s backwards, bq-flicker 1.15s ease-in-out infinite;
+}
+.bq-flame--core {
+  scale: 0.55;
+  animation-duration: 0.9s, 0.75s;
+  animation-delay: 1.65s, -0.3s;
+}
+@keyframes bq-ignite { from { scale: 0; opacity: 0; } }
+@keyframes bq-flicker {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  18%      { transform: scale(0.94, 1.12) skewX(-5deg); }
+  37%      { transform: scale(1.05, 0.92) skewX(3deg); }
+  55%      { transform: scale(0.97, 1.16) skewX(-2deg); }
+  76%      { transform: scale(1.04, 0.96) skewX(5deg); }
+}
+.bq-brazier::after {
+  content: "";
+  position: absolute;
+  left: 46%;
+  top: 24%;
+  width: 190%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 176, 84, 0.5), rgba(255, 140, 60, 0.14) 45%, transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: bq-glow-in 1.2s ease-out 1.5s backwards, bq-glow 1.3s ease-in-out infinite alternate;
+}
+@keyframes bq-glow-in { from { opacity: 0; } }
+@keyframes bq-glow    { from { scale: 0.9; } to { scale: 1.12; } }
+.bq-ember {
+  position: absolute;
+  left: 44%;
+  top: 22%;
+  width: 4px;
+  height: 4px;
+  background: #f6c453;
+  rotate: 45deg;
+  opacity: 0;
+  pointer-events: none;
+  animation: bq-ember 2.6s linear infinite;
+  animation-delay: calc(1.8s + var(--i) * 0.55s);
+}
+@keyframes bq-ember {
+  0%   { opacity: 0; translate: 0 0; scale: 1; }
+  12%  { opacity: 1; }
+  100% { opacity: 0; translate: calc(18px + var(--i) * 9px) calc(-70px - var(--i) * 8px); scale: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .starry::before, .starry::after, .bq-ember { display: none; }
+}
