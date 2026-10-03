@@ -36,11 +36,14 @@ img {
   max-width: none;
 }
 
+/* Exactly one screen tall, like the Figma frame: the island shrinks from the
+   bottom (cropped) instead of making the page scroll. Only when the text and
+   badges themselves don't fit does the page scroll (overflow-y stays visible). */
 .page {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
-  overflow: hidden;
+  height: 100vh;
+  height: 100svh;
+  overflow-x: clip;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,11 +51,15 @@ img {
   padding: 48px clamp(20px, 4.5vw, 64px) 0;
 }
 
+.page > * {
+  flex-shrink: 0;
+}
+
 /* foundation/starry-violet/web */
 .starry {
   position: absolute;
   inset: 0 0 auto;
-  height: 900px;
+  height: min(900px, 100%);
   background: linear-gradient(
     to bottom,
     var(--starry-stop-1) 0%,
@@ -244,6 +251,8 @@ img {
   position: relative;
   width: 100vw;
   margin-top: auto;
+  flex-shrink: 1;
+  min-height: 80px;
   overflow: hidden;
 }
 
@@ -253,6 +262,14 @@ img {
   aspect-ratio: 1440 / 329;
   left: 50%;
   transform: translateX(-50%);
+}
+
+/* Phones: the artboard's top ~22% is empty sky (pillars start at 24.72%).
+   Trim it so the short visible slice shows the pillars and island. */
+@media (max-width: 600px) {
+  .island__art {
+    margin-top: calc(max(100vw, 900px) * -0.05);
+  }
 }
 
 .island__art span {
