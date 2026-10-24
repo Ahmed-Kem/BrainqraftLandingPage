@@ -9,9 +9,10 @@
     <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg?v=2" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
     <link rel="stylesheet" href="/motion.css" />
+    <link rel="stylesheet" href="/classement.css" />
     <script>
       // Journey invitation links (/join/BQ-XXXXXX). When the app is installed the OS
       // opens it via Universal / App Links before this page loads, so this only runs
@@ -78,11 +79,6 @@
             </span>
           </a>
         </div>
-        <nav class="legal-links" aria-label="Informations">
-          <a href="/informations-legales">Informations légales</a>
-          <a href="/informations-legales#confidentialite">Confidentialité</a>
-          <a href="/support-technique">Support</a>
-        </nav>
         <p class="join-hint">Ouvre ce lien depuis ton téléphone pour rejoindre le parcours dans l’app BrainQraft.</p>
       </section>
 
@@ -128,6 +124,52 @@
         </div>
       </div>
     </main>
+
+    <!-- Classement : écran qui suit le hero après la transition île → brume.
+         Rempli par classement.js (podium, tableau, 7 rangs). -->
+    <section class="classement" id="classement" aria-labelledby="cl-title">
+      <div class="cl-bg" aria-hidden="true"></div>
+      <div class="seam" aria-hidden="true"></div>
+      <div class="sh reveal">
+        <span class="overline">Classement</span>
+        <h2 id="cl-title">Les meilleurs joueurs.</h2>
+        <p>Le top global et le meilleur de chaque rang.</p>
+      </div>
+      <div class="board">
+        <div class="seg reveal" id="seg" role="tablist" aria-label="Vue du classement" data-active="general">
+          <span class="seg-pill" aria-hidden="true"></span>
+          <button role="tab" id="seg-general" aria-selected="true" data-view="general">Général</button>
+          <button role="tab" id="seg-rank" aria-selected="false" data-view="rank">Par rang</button>
+        </div>
+        <div class="tabs-wrap" id="tabsWrap">
+          <div>
+            <div class="panel tabs" id="tabs" role="tablist" aria-label="Rang">
+              <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+        <h3 class="board-title reveal" id="boardTitle">Top global</h3>
+        <div class="podium" id="podium"></div>
+        <div class="panel list reveal" id="list">
+          <div class="lh">
+            <span class="c-rank">#</span><span class="c-player">Joueur</span><span class="c-xp">XP</span><span class="c-time">Temps</span>
+          </div>
+          <div id="rows" style="display: flex; flex-direction: column; gap: 2px"></div>
+        </div>
+        <button class="btn reveal" id="more" type="button">Voir tout</button>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <nav class="legal-links" aria-label="Informations">
+        <a href="/informations-legales">Informations légales</a>
+        <a href="/informations-legales#confidentialite">Confidentialité</a>
+        <a href="/support-technique">Support</a>
+      </nav>
+      <p class="footer-copy">© 2026 BrainQraft</p>
+    </footer>
+
     <script src="/motion.js"></script>
+    <script src="/classement.js"></script>
   </body>
 </html>

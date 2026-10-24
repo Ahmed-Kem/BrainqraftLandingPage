@@ -1,0 +1,628 @@
+/* ===== BrainQraft landing — section Classement (à charger après styles.css) =====
+   Portée depuis la maquette "web/landing — classement" (Figma ZCxJOOhMBxrM51tNggEUJD).
+   Tout est scopé sous .classement : les tokens du classement ne touchent pas le reste
+   de la page. La transition île → classement (brume + parallaxe) est décrite dans la
+   passation ; la parallaxe elle-même est pilotée par classement.js sur les 35 calques. */
+
+.classement {
+  /* tokens du classement (mêmes valeurs que DS 2 Brainqraft, scopés ici) */
+  --bg: #212034;
+  --surface: #343252;
+  --raised: #403e6a;
+  --text: #f5f4f8;
+  --text-2: #cac9de;
+  --text-3: #8583af;
+  --accent: #a584eb;
+  --indigo-500: #66639c;
+  --line-300: #a8a6c9;
+  --line-600: #524f82;
+  --line-700: #403e6b;
+  --sel: #524f82;
+  --yellow-300: #ffe357;
+  --grey-300: #cac8d0;
+  --orange-300: #ebaa84;
+  --btn-face-start: #524f82;
+  --btn-face-end: #403e6a;
+  --btn-glint: #a8a6c9;
+  --btn-socle: #26253f;
+  --hover: rgba(255, 255, 255, 0.12);
+  --hover-soft: rgba(255, 255, 255, 0.08);
+  --section-top: #212144;
+  --section-bottom: #162674;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --ease-std: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* brume (valeurs passation, desktop) */
+  --seam-up: 170px;
+  --seam-down: 220px;
+  --haze: 0.18;
+  --haze-w: 72%;
+
+  position: relative;
+  z-index: 2;
+  /* La section remonte sous le bas de l'île : sa brume (opaque pile au début de la
+     section) prend le relais du fondu de l'île (styles.css) vers le bleu nuit. */
+  margin-top: -56px;
+  padding-block: 80px 80px;
+  padding-left: max(80px, env(safe-area-inset-left, 0px));
+  padding-right: max(80px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  color: var(--text);
+  font-family: var(--font-display);
+}
+
+/* fond dégradé de la section */
+.cl-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--section-top) 0%, var(--section-bottom) 100%);
+}
+
+/* La brume : opaque pile au début de la section, elle recouvre le bas de l'île.
+   Halo lavande (theme/line/indigo-300) pour passer du blanc des nuages au bleu nuit
+   sans bande grise. Opacité ((1 − cos πt) / 2)^1.8, échantillonnée (passation). */
+.seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--seam-up));
+  height: calc(var(--seam-up) + var(--seam-down));
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      var(--haze-w) calc(var(--seam-up) * 0.85) at 50% var(--seam-up),
+      rgba(168, 166, 201, var(--haze)) 0%,
+      rgba(168, 166, 201, calc(var(--haze) * 0.45)) 45%,
+      rgba(168, 166, 201, 0) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(33, 33, 68, 0) 0%,
+      rgba(33, 33, 68, 0.001) 8.3%,
+      rgba(33, 33, 68, 0.008) 16.7%,
+      rgba(33, 33, 68, 0.031) 25%,
+      rgba(33, 33, 68, 0.082) 33.3%,
+      rgba(33, 33, 68, 0.167) 41.7%,
+      rgba(33, 33, 68, 0.287) 50%,
+      rgba(33, 33, 68, 0.435) 58.3%,
+      rgba(33, 33, 68, 0.596) 66.7%,
+      rgba(33, 33, 68, 0.752) 75%,
+      rgba(33, 33, 68, 0.883) 83.3%,
+      rgba(33, 33, 68, 0.97) 91.7%,
+      rgba(33, 33, 68, 1) 100%
+    )
+      top / 100% var(--seam-up) no-repeat;
+}
+
+/* en-tête de section */
+.sh {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  max-width: 1000px;
+}
+.overline {
+  font: 700 12px/12px var(--font-display);
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.sh h2 {
+  margin: 0;
+  font: 700 52px/52px var(--font-display);
+  color: var(--text);
+  text-wrap: balance;
+}
+.sh p {
+  margin: 0;
+  width: 640px;
+  max-width: 100%;
+  font: 500 18px/20px var(--font-body);
+  color: var(--text-2);
+}
+
+.board {
+  width: 800px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* input/segmented-control-nav size=S */
+.seg {
+  position: relative;
+  width: 320px;
+  height: 62px;
+  padding: 6px;
+  border-radius: 24px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+}
+.seg-pill {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 154px;
+  height: 50px;
+  border-radius: 16px;
+  background: var(--raised);
+  transition: transform 0.15s var(--ease-std);
+}
+.seg[data-active="rank"] .seg-pill {
+  transform: translateX(154px);
+}
+.seg button {
+  position: relative;
+  width: 154px;
+  height: 50px;
+  border-radius: 16px;
+  font: 700 16px/16px var(--font-display);
+  color: var(--text-3);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.seg button[aria-selected="true"] {
+  color: var(--text);
+}
+
+/* rangée des rangs (web/league-tab) */
+.tabs-wrap {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.24s var(--ease-std), margin 0.24s var(--ease-std);
+  margin-block: -12px;
+}
+.tabs-wrap.open {
+  grid-template-rows: 1fr;
+  margin-block: 0;
+}
+.tabs-wrap > div {
+  overflow: hidden;
+  min-height: 0;
+}
+.panel {
+  position: relative;
+  border-radius: 24px;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(to bottom right, transparent 67.9%, var(--line-300) 85.7%) border-box,
+    radial-gradient(71% var(--ry, 36%) at 50% 0%, var(--line-300) 0 30%, var(--line-600) 65%, var(--line-700) 100%) border-box;
+  border: 1px solid transparent;
+}
+.tabs {
+  padding: 11px;
+  display: flex;
+  position: relative;
+}
+.tab-ind {
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  height: 60px;
+  border-radius: 12px;
+  background: var(--sel);
+  transition: transform 0.24s var(--ease-std), width 0.24s var(--ease-std);
+  pointer-events: none;
+}
+.tab {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.tab img {
+  height: 32px;
+  width: auto;
+}
+.tab span {
+  font: 500 12px/12px var(--font-display);
+  color: var(--text-2);
+  white-space: nowrap;
+  transition: color 0.24s;
+}
+.tab[aria-selected="true"] span {
+  color: var(--text);
+}
+.tab:hover {
+  background: var(--hover);
+}
+.tab[aria-selected="true"]:hover {
+  background: transparent;
+}
+
+.board-title {
+  align-self: stretch;
+  margin: 0;
+  font: 700 20px/20px var(--font-display);
+  color: var(--text);
+}
+
+/* podium/top3 size=lg */
+.podium {
+  align-self: stretch;
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+}
+.tile {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 16px;
+  border-radius: 24px;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(to bottom right, transparent 60.7%, var(--tint) 85.7%) border-box,
+    radial-gradient(71% 36% at 50% 0%, var(--tint) 0 30%, var(--line-600) 65%, var(--line-700) 100%) border-box;
+}
+.tile.p1 {
+  padding-block: 32px;
+  --tint: var(--yellow-300);
+}
+.tile.p2 {
+  --tint: var(--grey-300);
+}
+.tile.p3 {
+  --tint: var(--orange-300);
+}
+.tile .av {
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  font-size: 34px;
+}
+.tile.p1 .av {
+  width: 120px;
+  height: 120px;
+  font-size: 42px;
+}
+.tile .pb {
+  width: 55px;
+  height: 53px;
+}
+.tile .pb.s {
+  display: none;
+}
+.tile .tx {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+}
+.tile .nm {
+  font: 700 20px/20px var(--font-display);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.tile.p1 .nm {
+  font-size: 24px;
+  line-height: 24px;
+}
+.tile .xp {
+  font: 700 14px/14px var(--font-display);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+/* web/avatar-initials (placeholder neutre du design system) */
+.av {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--raised);
+  border: 1px solid var(--surface);
+  color: var(--text-2);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* tableau : web/leaderboard-header + web/leaderboard-row (size md) */
+.list {
+  align-self: stretch;
+  --ry: 75px;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lh,
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.lh {
+  padding-block: 8px;
+}
+.lh span {
+  font: 700 12px/12px var(--font-display);
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.c-rank {
+  flex: none;
+  width: 56px;
+  display: flex;
+  justify-content: center;
+}
+.c-player {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+.c-xp {
+  flex: none;
+  width: 96px;
+  display: flex;
+  justify-content: flex-end;
+}
+.c-time {
+  flex: none;
+  width: 56px;
+  display: flex;
+  justify-content: flex-end;
+}
+.row {
+  padding-block: 10px;
+  border-radius: 12px;
+  transition: background-color 0.15s;
+}
+.row:hover {
+  background: var(--hover);
+}
+.row .c-rank {
+  font: 700 14px/14px var(--font-display);
+  color: var(--text-3);
+}
+.row .av {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+.row .nm {
+  font: 700 14px/14px var(--font-display);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row .c-xp,
+.row .c-time {
+  font: 700 14px/14px var(--font-display);
+  white-space: nowrap;
+}
+.row .c-xp {
+  color: var(--text);
+}
+.row .c-time {
+  color: var(--text-3);
+}
+.sr {
+  position: relative;
+  flex: none;
+  width: 35px;
+  height: 20px;
+  padding-top: 3px;
+}
+.sr img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 20px;
+  max-width: none;
+}
+.sr b {
+  position: relative;
+  display: block;
+  width: 34px;
+  text-align: center;
+  font: 700 12px/12px var(--font-display);
+  color: #fff;
+}
+
+/* web/button secondary lg */
+.classement .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 24px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  --btn-face: linear-gradient(180deg, var(--btn-face-start), var(--btn-face-end));
+  --btn-stroke: radial-gradient(70% 120% at 0% 0%, var(--btn-glint) 0%, var(--indigo-500) 45%, var(--line-600) 100%);
+  background: var(--btn-face) padding-box, var(--btn-stroke) border-box;
+  box-shadow: 0 4px 0 var(--btn-socle);
+  font: 700 16px/16px var(--font-display);
+  color: var(--text);
+  transition: transform 0.08s var(--ease-std), box-shadow 0.08s var(--ease-std);
+  /* calage optique 16/16 */
+  padding-block: 21px 19px;
+}
+.classement .btn:hover {
+  background: linear-gradient(var(--hover-soft), var(--hover-soft)) padding-box, var(--btn-face) padding-box,
+    var(--btn-stroke) border-box;
+}
+.classement .btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--btn-socle);
+}
+
+/* ---------- animations d'entrée (armées par classement.js, jamais au premier rendu) ---------- */
+.classement .pre {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.classement .in {
+  transition: opacity 0.4s var(--ease-enter), transform 0.6s var(--ease-enter);
+}
+.classement .tile.pre {
+  transform: translateY(40px) scale(0.96);
+}
+.classement .tile.in {
+  transition: opacity 0.35s var(--ease-enter), transform 0.6s var(--ease-spring);
+}
+.classement .row.pre {
+  transform: translateY(12px);
+}
+.classement .swap {
+  animation: cl-swap 0.24s var(--ease-enter) both;
+}
+@keyframes cl-swap {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---------- Mobile (rupture 860 px, comme la passation) ---------- */
+@media (max-width: 859px) {
+  .classement {
+    padding: 56px max(16px, env(safe-area-inset-right, 0px)) 56px max(16px, env(safe-area-inset-left, 0px));
+    gap: 32px;
+    margin-top: -36px;
+    /* brume (valeurs passation, mobile) */
+    --seam-up: 110px;
+    --seam-down: 130px;
+    --haze: 0.16;
+    --haze-w: 85%;
+  }
+  .sh h2 {
+    font-size: 40px;
+    line-height: 40px;
+  }
+  .sh p {
+    width: auto;
+  }
+  .board {
+    width: 100%;
+  }
+  .tab span {
+    display: none;
+  }
+  .tab-ind {
+    height: 44px;
+  }
+  .podium {
+    gap: 8px;
+  }
+  .tile {
+    padding: 16px 8px;
+    gap: 8px;
+  }
+  .tile.p1 {
+    padding-block: 20px;
+  }
+  .tile .av {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    font-size: 22px;
+  }
+  .tile.p1 .av {
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
+  }
+  .tile .pb.m {
+    display: none;
+  }
+  .tile .pb.s {
+    display: block;
+    width: 40px;
+    height: 37px;
+  }
+  .tile .nm {
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .tile.p1 .nm {
+    font-size: 20px;
+    line-height: 20px;
+  }
+  /* calage optique : Chrome place la ligne de base de Space Grotesk 16/16 un pixel plus haut que Figma */
+  .tile:not(.p1) .nm {
+    position: relative;
+    top: 1px;
+  }
+  .tile .xp {
+    font-size: 12px;
+    line-height: 12px;
+  }
+  .lh,
+  .row {
+    gap: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .c-rank {
+    width: auto;
+    min-width: 24px;
+  }
+  .lh .c-rank {
+    width: 24px;
+  }
+  .c-time {
+    display: none;
+  }
+  .c-xp {
+    width: auto;
+    min-width: 57px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seg-pill,
+  .tab-ind,
+  .tabs-wrap,
+  .classement .in,
+  .classement .tile.in {
+    transition: none !important;
+  }
+  .classement .swap {
+    animation: none;
+  }
+}

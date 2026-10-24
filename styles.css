@@ -38,13 +38,15 @@ img {
   max-width: none;
 }
 
-/* Exactly one screen tall, like the Figma frame: the island shrinks from the
-   bottom (cropped) instead of making the page scroll. Only when the text and
-   badges themselves don't fit does the page scroll (overflow-y stays visible). */
+/* The hero is one screen tall (like the Figma frame: the island shrinks from the
+   bottom instead of pushing the hero taller), then the classement section scrolls
+   in below it. z-index:1 keeps the hero under the section so the brume (in the
+   section) always passes in front of the island, never in front of the title. */
 .page {
   position: relative;
-  height: 100vh;
-  height: 100svh;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
   overflow-x: clip;
   display: flex;
   flex-direction: column;
@@ -152,7 +154,9 @@ img {
   align-items: center;
   gap: 12px;
   height: 62px;
-  padding: 14px 24px 14px 20px;
+  /* Les line-height (12/12, 20/20) ne contiennent pas les accents/hampes : il faut
+     de l'air vertical ET ne pas rogner le label, sinon le haut du texte est coupé. */
+  padding: 10px 24px 10px 20px;
   border: 1px solid var(--indigo-500);
   border-radius: var(--radius-20);
   background-image: linear-gradient(147deg, var(--indigo-800) 12.793%, var(--indigo-600) 150.42%);
@@ -194,7 +198,9 @@ img {
   flex-direction: column;
   gap: 2px;
   white-space: nowrap;
-  overflow: hidden;
+  /* visible (et non hidden) : laisse les accents/hampes dépasser dans le padding du
+     badge au lieu d'être rognés. Les libellés sont courts, pas de risque de débord. */
+  overflow: visible;
 }
 
 /* Caption/Default */
@@ -255,7 +261,11 @@ img {
   margin-top: auto;
   flex-shrink: 1;
   min-height: 40px;
-  overflow: hidden;
+  /* Rogne la largeur (l'artboard 1440 déborde sous 900px) mais laisse le haut
+     libre, sinon le sommet des flammes et leur lueur (qui montent au-dessus des
+     braseros) sont coupés quand l'île est remontée sur petits écrans. */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .island__art {
@@ -292,6 +302,19 @@ img {
   transform: scaleX(-1);
 }
 
+/* Fondu du bas de l'île vers la nuit : dissout le bord dur de l'illustration,
+   proportionnellement (donc à toutes les largeurs), avant que la brume de la
+   section (classement.css) prenne le relais vers le bleu nuit. */
+.island::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 42%;
+  background: linear-gradient(to bottom, rgba(33, 32, 52, 0) 0%, var(--surface-background) 86%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Legal links: under the store badges on the landing, and the footer of the
    text pages (informations-legales, support-technique). */
 .legal-links {
@@ -315,6 +338,28 @@ img {
   opacity: 1;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Footer de la landing : liens légaux + mention, sous le classement. Fond = fin du
+   dégradé du classement (#162674) pour enchaîner sans couture. */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px clamp(20px, 4.5vw, 64px) calc(40px + env(safe-area-inset-bottom, 0px));
+  background: #162674;
+  text-align: center;
+}
+
+.site-footer .footer-copy {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--store-label-secondary);
+  opacity: 0.6;
 }
 
 /* Text pages: a readable scrolling column on the same starry sky. */
